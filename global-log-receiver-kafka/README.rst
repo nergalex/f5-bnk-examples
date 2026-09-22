@@ -1,12 +1,15 @@
 How to expose BNK logs to Kafka?
 =================================
 
-Notes
------
+This guide covers configuring Fluentd to forward logs to an existing Kafka broker over mTLS, with optional record transformation.
+It assumes Kafka is already deployed and accessible.
 
-* This guide covers configuring Fluentd to forward logs to an existing Kafka
-  broker over mTLS, with optional record transformation. It assumes Kafka is
-  already deployed and accessible.
+.. contents:: Contents
+    :local:
+
+Supported and tested version
+----------------------------
+
 * This is included exclusively in version ``>= 2.4``.
 * Tested version: 2.4
 
