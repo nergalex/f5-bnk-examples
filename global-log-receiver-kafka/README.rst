@@ -8,6 +8,7 @@ Notes
   broker over mTLS, with optional record transformation. It assumes Kafka is
   already deployed and accessible.
 * This is included exclusively in version ``>= 2.4``.
+* Tested version: 2.4
 
 1. Add Kafka mTLS certificates to the Fluentd custom secret
 ------------------------------------------------------------
