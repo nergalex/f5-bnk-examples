@@ -45,13 +45,14 @@ To run this tool, the customer only needs:
 1.2 Authentication & API Key
 ----------------------------
 
-*   **IBM Cloud API Key (IBMCLOUD_API_KEY):**
-    *   Can be provided via environment variable: ``export IBMCLOUD_API_KEY="<your_api_key>"``
-    *   Or passed via CLI parameter: ``--api-key "<your_api_key>"``
-    *   If the customer has already performed ``ibmcloud login``, the script will automatically reuse the existing session.
-*   **Required IAM Permissions in IBM Cloud:**
-    *   Kubernetes Service: Viewer (to list clusters and download read-only cluster config) or Operator.
-    *   VPC Infrastructure Service: Viewer or Operator on Security Groups and VPC Routing Tables.
+    - **IBM Cloud API Key (IBMCLOUD_API_KEY):**
+        - Can be provided via environment variable: ``export IBMCLOUD_API_KEY="<your_api_key>"``
+        - Or passed via CLI parameter: ``--api-key "<your_api_key>"``
+        - If the customer has already performed ``ibmcloud login``, the script will automatically reuse the existing session.
+
+    - **Required IAM Permissions in IBM Cloud:**
+        - Kubernetes Service: Viewer (to list clusters and download read-only cluster config) or Operator.
+        - VPC Infrastructure Service: Viewer or Operator on Security Groups and VPC Routing Tables.
 
 2. Installation & Quick Start
 =============================
