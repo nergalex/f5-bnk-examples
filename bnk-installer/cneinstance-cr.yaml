@@ -1,0 +1,126 @@
+apiVersion: k8s.f5.com/v1
+kind: CNEInstance
+metadata:
+  labels:
+    app.kubernetes.io/name: f5-lifecycle-operator
+    app.kubernetes.io/managed-by: kustomize
+  annotations:
+    cneinstance.k8s.f5.com/disable-session-state: "true"
+  name: "f5-bnk-f5-cne-controller"
+  namespace: f5-bnk
+spec:
+  product:
+    gatewayAPI: true
+    type: BNK
+  manifestVersion: 2.4.0
+  wholeCluster: false
+  placement:
+    dataPlane:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: f5-tmm
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: f5-tmm
+            topologyKey: kubernetes.io/hostname
+  telemetry:
+    loggingSubsystem:
+      enabled: true
+    metricSubsystem:
+      enabled: true
+  certificate:
+    clusterIssuer: ext-ca-cluster-issuer
+  deploymentSize: "Tiny"
+  registry:
+    uri: repo.f5.com
+    imagePullSecrets:
+    - name: far-secret
+    imagePullPolicy: Always
+  networkAttachments:
+  - ens3-ipvlan-l2
+  dynamicRouting:
+    enabled: false
+  # AFM
+  firewallACL:
+    enabled: true
+  pseudoCNI:
+    enabled: true
+  # Enable CIS
+  externalBigip:
+    enabled: true
+  # Core dump files
+  coreCollection:
+    enabled: true
+  watchNamespaces:
+    - "All"
+  tmmReplicas: 6
+  advanced:
+    coremon:
+      hostPath: true
+      env:
+      - name: "COREMOND_OVERRIDE_CORE_PATTERN"
+        value: "true"
+    envDiscovery:
+      enabled: false
+      stopOnFail: false
+      runAfterSuccess: false
+    cneController:
+        env:
+        - name: TMM_DEFAULT_MTU
+          value: "9000"
+        - name: CLOUD_ENV
+          value: "true"
+        - name: CLOUD_PROVIDER
+          value: ibm
+        - name: CLOUD_TRUSTED_PROFILE
+          value: Profile-9d4dd47e-e573-4d41-8d08-1fae4615d6bb
+        - name: GSLB_DATACENTER_NAME
+          value: datacenter-staging-small
+        - name: USE_GATEWAY_SETTINGS
+          value: "true"
+        - name: GATEWAY_API_VERSION
+          value: "1.5.0"
+    demoMode:
+      enabled: false
+    maintenanceMode:
+      enabled: true
+    tmm:
+      rollingUpdate:
+        maxUnavailable: 1
+        maxSurge: 0
+      env:
+      - name: TMM_CALICO_ROUTER
+        value: "default"
+      - name: TMM_DEFAULT_MTU
+        value: "9000"
+      - name: TMM_IGNORE_GATEWAYS
+        value: "true"
+      - name: DISABLE_HT
+        value: "true"
+      - name: TMM_MAPRES_ADDL_VETHS_ON_DP
+        value: "TRUE"
+      - name: ENABLE_K8S_ROUTES
+        value: "true"
+    pseudoCNI:
+      env:
+      - name: DISABLE_CHECKSUM_OFFLOAD
+        value: "true"
+      - name: USE_NEXTHOP_API
+        value: "true"
+    externalBigip:
+      env:
+      - name: ENABLE_EXT_BIGIP_DATASERVER_MONITOR
+        value: "true"
+      - name: ENABLE_EXT_BIGIP_POOL_MONITOR
+        value: "true"
+      - name: EXTERNAL_BIGIP_LOGIN_SECRET
+        value: f5-bigip-ctlr-login
+      - name: CLUSTER_IDENTIFIER
+        value: staging-small-cluster
