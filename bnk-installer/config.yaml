@@ -8,7 +8,7 @@
 # far-secret-name              : name of the generated image pull secret
 # cneinstance-cr               : CNEInstance CR manifest to apply in f5-bnk
 # nad-name                     : NetworkAttachmentDefinition name (generated dynamically)
-# gtm-bigip-ip/port            : External BIG-IP (CIS) address for f5-bigip-ctlr-login
+# gtm-bigip-url                 External BIG-IP (CIS) address as <ip>:<port> or a URL
 # gtm-bigip-username/password  : External BIG-IP (CIS) credentials
 # jwt                          : License JWT token (may reference an env var, e.g. "$JWT")
 # ==============================================================================
@@ -20,8 +20,7 @@ cert-mgr-clusterissuer-name: "ext-ca-cluster-issuer"
 far-secret-name: "far-secret"
 cneinstance-cr: "cneinstance-cr.yaml"
 nad-name: "ens3-ipvlan-l2"
-gtm-bigip-ip: "A.B.C.D"
-gtm-bigip-port: "8443"
+gtm-bigip-url: "test.acme.com"
 gtm-bigip-username: "XXX"
 gtm-bigip-password: "XXX"
 jwt: "XXX.XXX.XXX"
