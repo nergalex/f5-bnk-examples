@@ -505,20 +505,14 @@ EOF
 
     # Step 12: Create External BIG-IP Controller(CIS) secret from config
     log_step "Step 12: External BIG-IP Controller(CIS) Secret Input & Application in f5-bnk"
-    local cis_ip cis_port cis_user cis_pass cis_url
-    cis_ip="$(cfg_get 'gtm-bigip-ip')"
-    cis_port="$(cfg_get 'gtm-bigip-port')"
+    local cis_user cis_pass cis_url
+    cis_url="$(cfg_get 'gtm-bigip-url')"
     cis_user="$(cfg_get 'gtm-bigip-username')"
     cis_pass="$(cfg_get 'gtm-bigip-password')"
     cis_user="${cis_user:-admin}"
-    if [ -z "$cis_ip" ] || [ -z "$cis_pass" ]; then
-        log_error "CIS BIG-IP credentials missing in config (gtm_bigip_ip / gtm_bigip_password)."
+    if [ -z "$cis_url" ] || [ -z "$cis_pass" ]; then
+        log_error "CIS BIG-IP credentials missing in config (gtm-bigip-url / gtm-bigip-password)."
         exit 1
-    fi
-    if [ -n "$cis_port" ]; then
-        cis_url="${cis_ip}:${cis_port}"
-    else
-        cis_url="$cis_ip"
     fi
 
     log_info "Creating CIS secret 'f5-bigip-ctlr-login' for BIG-IP $cis_url in namespace f5-bnk..."
@@ -665,7 +659,7 @@ EOF
     kubectl get pods -n f5-bnk -o wide || true
     echo -e "\n${CYAN}=== Pods in f5-utils ===${NC}"
     kubectl get pods -n f5-utils -o wide || true
-    
+
     log_success "F5 BNK installation completed successfully!"
 }
 
@@ -864,7 +858,7 @@ Configuration:
     far-secret-name               Name of the generated image pull secret
     cneinstance-cr                CNEInstance CR manifest to apply
     nad-name                      NetworkAttachmentDefinition name (generated)
-    gtm-bigip-ip / gtm-bigip-port External BIG-IP (CIS) address
+    gtm-bigip-url                 External BIG-IP (CIS) address as <ip>:<port> or a URL
     gtm-bigip-username / -password External BIG-IP (CIS) credentials
     jwt                           License JWT token (or "$VAR" env reference)
 
