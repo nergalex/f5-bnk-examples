@@ -2,16 +2,8 @@
 External pool member troubleshooting
 ========================================
 
-Check list:
-    - Ensure there is route from TMM to pool member
-    - TGW connectivity is required for remote VSI.
-    - Security group rule is required to be open from both cluster (TMM) and destination side.
-
-Then generate a packet capture of server-side traffic.
-
 .. contents:: Contents
     :local:
-
 
 Check list
 =====================================================
