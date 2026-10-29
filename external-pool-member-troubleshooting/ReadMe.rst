@@ -7,8 +7,13 @@ Check list:
     - TGW connectivity is required for remote VSI.
     - Security group rule is required to be open from both cluster (TMM) and destination side.
 
+Then generate a packet capture of server-side traffic.
 
-Origin server reachability
+.. contents:: Contents
+    :local:
+
+
+Check list
 =====================================================
 
 Route from TMM to pool member
@@ -48,4 +53,30 @@ Security group
     - destination: Origin Server
     - L4 Proto: TCP
     - L4 Port: listening port on Origin Server. Example: ``18072``
+
+Packet capture
+=====================================================
+tcpdump
+--------------
+Start tcpdump on tmm debug container, capture packets and stop tcpdump. which saves pcap file in debug container
+
+Example: Origin server IP address ``10.248.69.X``
+
+.. code-block:: bash
+
+    kubectl exec -it <f5-tmm-pod> -c debug -n <namespace> -- bash
+
+    # capturing icmp packets:
+    tcpdump -ns0 -i any "host 10.248.69.X" -w my_capture.pcap -vvv
+
+    # press Ctrl+C to stop tcpdump
+    # -vvv wil show the number of packets captured
+
+Save pcap file locally
+----------------------
+Copy pcap file from container to local
+
+.. code-block:: bash
+
+    kubectl cp <f5-tmm-pod>:my_capture.pcap -c debug my_capture.pcap
 
