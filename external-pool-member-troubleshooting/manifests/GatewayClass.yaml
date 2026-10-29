@@ -1,0 +1,7 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: gateway-class
+spec:
+  controllerName: "f5.com/f5-bnk-f5-cne-controller"
+  description: "F5 BIG-IP Kubernetes Gateway"

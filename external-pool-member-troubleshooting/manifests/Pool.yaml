@@ -1,0 +1,44 @@
+apiVersion: k8s.f5net.com/v1
+kind: Pool
+metadata:
+  name: infra-backend-pool
+  namespace: ns-ext
+spec:
+  dynamicMembers: []
+  members:
+  - address: 10.238.69.13
+    port: 18071
+    priorityGroup: 0
+  - address: 10.232.0.8
+    port: 18072
+    priorityGroup: 0
+  minActiveMembers: 0
+  monitors:
+    dns: []
+    http:
+    - destinationAddress: '::'
+      destinationPort: 0
+      interval: 10
+      password: ""
+      receiveDisableString: ""
+      receiveString: ""
+      sendString: ""
+      timeout: 30
+      username: ""
+    http2: []
+    https: []
+    icmp: []
+    sip: []
+    tcp:
+    - destinationAddress: '::'
+      destinationPort: 0
+      interval: 10
+      receiveDisableString: ""
+      receiveString: ""
+      sendString: ""
+      timeout: 30
+      tcpHalfOpen: []
+    udp: []
+  namespace: ""
+  tenant: ""
+  vrf: ""

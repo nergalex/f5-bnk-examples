@@ -1,0 +1,21 @@
+apiVersion: gateway.k8s.f5.com/v1alpha1
+kind: GatewaySettings
+metadata:
+  name: gw-settings-pool
+  namespace: f5-bnk
+spec:
+  egressConfigs:
+  - hardwareAcceleration: none
+    name: egress-vxlan-vip-snatip-pool
+    networkRef:
+      name: external-vlan
+    sourceNATConfig:
+      type: UseIngressAddress
+  ingressConfig:
+    defaultListenerNetwork:
+      ipamRefs:
+      - name: vip-listener-ipam
+    networkRefs:
+    - name: external-vlan
+    sourceNATConfig:
+      type: Automap
